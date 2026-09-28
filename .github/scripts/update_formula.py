@@ -26,7 +26,7 @@ class Continuum < Formula
     python = Formula["python@3.13"].opt_bin/"python3.13"
     (bin/"continuum").write <<~SH
       #!/bin/sh
-      exec "#{python}" -P -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from party_continuum.local_cli import main; sys.exit(main())' "#{libexec}" "$@"
+      exec "#{python}" -P -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from party_continuum.cli import main; sys.exit(main())' "#{libexec}" "$@"
     SH
   end
 
