@@ -1,0 +1,37 @@
+name: test
+# Installs and tests the formula as users get it, on macOS and Linux.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  formula:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - id: formula
+        run: test -f Formula/continuum.rb && echo "present=true" >> "$GITHUB_OUTPUT" || echo "No formula released yet."
+      - if: steps.formula.outputs.present == 'true'
+        uses: Homebrew/actions/setup-homebrew@main
+      - if: steps.formula.outputs.present == 'true'
+        run: brew install maitai-inc/continuum/continuum
+      - if: steps.formula.outputs.present == 'true'
+        run: brew test maitai-inc/continuum/continuum
+      - if: steps.formula.outputs.present == 'true'
+        name: Runs on a checkout
+        run: |
+          repo="$(mktemp -d)"; cd "$repo"
+          git init -q -b main
+          printf 'def value():\n    return 1\n' > core.py
+          printf 'from core import value\n\n\ndef test_value():\n    assert value() == 1\n' > test_core.py
+          git add -A && git -c user.name=ci -c user.email=ci@example.com commit -qm base
+          sed -i.bak 's/return 1/return 2/' core.py && rm core.py.bak
+          continuum tests --json | tee /dev/stderr | grep -q 'test_core.py::test_value'
