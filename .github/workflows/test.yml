@@ -1,10 +1,17 @@
 name: test
-# Installs and tests the formula as users get it, on macOS and Linux.
+# Installs and tests the formula as users get it, on macOS and Linux. `update`
+# calls it with a candidate formula before publishing one.
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      candidate:
+        description: Artifact holding a Formula/continuum.rb to test instead of the committed one
+        type: string
+        default: ''
 permissions:
   contents: read
 jobs:
@@ -17,6 +24,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - if: inputs.candidate != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.candidate }}
+          path: Formula
       - id: formula
         run: test -f Formula/continuum.rb && echo "present=true" >> "$GITHUB_OUTPUT" || echo "No formula released yet."
       - if: steps.formula.outputs.present == 'true'

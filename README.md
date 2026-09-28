@@ -17,5 +17,6 @@ continuum impact
 continuum tests --explain
 ```
 
-`Formula/continuum.rb` is generated and pushed on each release; changes made here
-directly are overwritten by the next one.
+`Formula/continuum.rb` follows PyPI: within about 15 minutes of a `party-continuum`
+release, `update` tests the new formula on macOS and Linux and commits it. Edits
+made to it here are overwritten by the next release.

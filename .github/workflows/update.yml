@@ -1,0 +1,62 @@
+name: update
+# Follows PyPI: when party-continuum has a new release, test the formula for it on
+# macOS and Linux, then commit it. Needs no credentials beyond this repository's.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: update
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write  # keep this schedule enabled
+    outputs:
+      version: ${{ steps.render.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: render
+        run: echo "version=$(python3 .github/scripts/update_formula.py)" >> "$GITHUB_OUTPUT"
+      - if: steps.render.outputs.version != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: formula
+          path: Formula/continuum.rb
+      - name: Keep the schedule enabled
+        # GitHub pauses schedules in repositories without activity for 60 days.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/update.yml/enable"
+
+  test:
+    needs: check
+    if: needs.check.outputs.version != ''
+    uses: ./.github/workflows/test.yml
+    with:
+      candidate: formula
+
+  publish:
+    needs: [check, test]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: formula
+          path: Formula
+      - run: |
+          git add Formula/continuum.rb
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "continuum ${VERSION}"
+          git push origin HEAD:main
