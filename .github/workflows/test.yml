@@ -24,15 +24,27 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      # Outside the checkout: setup-homebrew resets the tap to the committed tree.
       - if: inputs.candidate != ''
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.candidate }}
-          path: Formula
+          path: ${{ runner.temp }}/candidate
       - id: formula
-        run: test -f Formula/continuum.rb && echo "present=true" >> "$GITHUB_OUTPUT" || echo "No formula released yet."
+        env:
+          CANDIDATE: ${{ runner.temp }}/candidate/continuum.rb
+        run: |
+          if [ -f "$CANDIDATE" ] || [ -f Formula/continuum.rb ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No formula released yet."
+          fi
       - if: steps.formula.outputs.present == 'true'
         uses: Homebrew/actions/setup-homebrew@main
+      - if: steps.formula.outputs.present == 'true' && inputs.candidate != ''
+        env:
+          CANDIDATE: ${{ runner.temp }}/candidate/continuum.rb
+        run: cp "$CANDIDATE" "$(brew --repository maitai-inc/continuum)/Formula/continuum.rb"
       - if: steps.formula.outputs.present == 'true'
         run: brew install maitai-inc/continuum/continuum
       - if: steps.formula.outputs.present == 'true'
