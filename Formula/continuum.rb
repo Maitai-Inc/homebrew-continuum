@@ -2,8 +2,8 @@
 class Continuum < Formula
   desc "Static change impact of a checkout: dependents, reach and tests to run"
   homepage "https://pypi.org/project/party-continuum/"
-  url "https://files.pythonhosted.org/packages/de/4e/a24675b27fe6979b95ab8c7b7a18572b1ab72461a1f802664b04706cc7b1/party_continuum-0.1.0.tar.gz"
-  sha256 "0dbc4c32d4aa9106944dc2ab89e8d88887a8901f35e56989d26fcb5215e15694"
+  url "https://files.pythonhosted.org/packages/32/bb/3ed1b20bcefa1f2c1d7f5d4b849f3adc4f18743c5efa33e4e49f10286bd4/party_continuum-0.2.0.tar.gz"
+  sha256 "50ba114ea0e66f8f7b0f65c7e29740600bbc81c3b789111c22b707871e9749f7"
 
   depends_on "python@3.13"
 
@@ -13,7 +13,7 @@ class Continuum < Formula
     python = Formula["python@3.13"].opt_bin/"python3.13"
     (bin/"continuum").write <<~SH
       #!/bin/sh
-      exec "#{python}" -P -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from party_continuum.local_cli import main; sys.exit(main())' "#{libexec}" "$@"
+      exec "#{python}" -P -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from party_continuum.cli import main; sys.exit(main())' "#{libexec}" "$@"
     SH
   end
 
