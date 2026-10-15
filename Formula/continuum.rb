@@ -2,8 +2,8 @@
 class Continuum < Formula
   desc "Static change impact of a checkout: dependents, reach and tests to run"
   homepage "https://pypi.org/project/party-continuum/"
-  url "https://files.pythonhosted.org/packages/56/83/28240af3daade9cac1e2264329836cb930859c4baf6878cb594862a919a0/party_continuum-0.4.2.tar.gz"
-  sha256 "14e9b3d40e00266c015d450ef436ccd73d0139ddfa3d07faf4ebe671a1640e8d"
+  url "https://files.pythonhosted.org/packages/b1/97/a6df2a55319b98a9553d7415a35b23b5f4564c08d1fde125ef3f73bd3ca2/party_continuum-0.4.3.tar.gz"
+  sha256 "1d3f7c1aa606123c0e0511aa7432697477b1343ad7f9d675e1b597f11b40d447"
 
   depends_on "python@3.13"
 
