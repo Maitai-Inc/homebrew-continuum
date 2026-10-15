@@ -1,6 +1,6 @@
 name: update
 # Follows PyPI: when party-continuum has a new release, test the formula for it on
-# macOS and Linux, then commit it. Needs no credentials beyond this repository's.
+# macOS and Linux, then stage a candidate branch for human review.
 on:
   schedule:
     - cron: '*/15 * * * *'
@@ -40,7 +40,7 @@ jobs:
     with:
       candidate: formula
 
-  publish:
+  propose:
     needs: [check, test]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -54,9 +54,4 @@ jobs:
         with:
           name: formula
           path: Formula
-      - run: |
-          git add Formula/continuum.rb
-          git -c user.name="github-actions[bot]" \
-            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "continuum ${VERSION}"
-          git push origin HEAD:main
+      - run: bash .github/scripts/propose_formula.sh

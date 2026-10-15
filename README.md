@@ -18,5 +18,12 @@ continuum tests --explain
 ```
 
 `Formula/continuum.rb` follows PyPI: within about 15 minutes of a `party-continuum`
-release, `update` tests the new formula on macOS and Linux and commits it. Edits
-made to it here are overwritten by the next release.
+release, `update` tests the new formula on macOS and Linux and pushes a candidate
+branch. Open the comparison link in the workflow summary to submit its pull
+request, then review and merge it to publish. The updater never pushes to `main`
+and needs no bot review bypass or new credentials. Edits made to the formula
+here are overwritten by the next release.
+
+The default branch should require one approving review, dismissal of stale
+approvals, and approval from someone other than the last pusher. Apply this
+branch ruleset after merging the updater change.
