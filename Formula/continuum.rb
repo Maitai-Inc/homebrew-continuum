@@ -4,14 +4,14 @@ class Continuum < Formula
 
   desc "Static change impact of a checkout: dependents, reach and tests to run"
   homepage "https://pypi.org/project/party-continuum/"
-  url "https://files.pythonhosted.org/packages/dd/9c/abafd92365089f92b44de79e87e0644ab7b24e726bb0183a47159aeb7788/party_continuum-0.10.0.tar.gz"
-  sha256 "90e035e3197e2cce12231b752f77dbacab1879c096e51a18e7ffd84549f5250c"
+  url "https://files.pythonhosted.org/packages/4c/d8/7ecdb38aef4570e0980598b48d364ac0f887e9c0d13204b7494472afa1b4/party_continuum-0.10.1.tar.gz"
+  sha256 "0d452ade60781e6ea92d661bb6d096096656cefc4b1cfd41224d09d78ab835fa"
 
   depends_on "python@3.13"
 
   resource "anyio" do
-    url "https://files.pythonhosted.org/packages/a9/d2/f4d173e22df740bc37b1db102b386ba719b66e95b0f0d751f556b387e6d2/anyio-4.15.1.tar.gz"
-    sha256 "9f28306018cbd6d329e64a36d58256edff76dd996fe423bc957326e578b82a94"
+    url "https://files.pythonhosted.org/packages/a1/98/7e457a3b014976887a050561955c0b76e1e7e2d6e27b78ecef2ef80518f2/anyio-4.16.0.tar.gz"
+    sha256 "59bb03251907983d1603d27c3087ddb1e93299ea2163adcdba37899a4fb12ffb"
   end
 
   resource "certifi" do
