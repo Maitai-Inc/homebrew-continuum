@@ -20,8 +20,13 @@ jobs:
       version: ${{ steps.render.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - id: render
-        run: echo "version=$(python3 .github/scripts/update_formula.py)" >> "$GITHUB_OUTPUT"
+        run: |
+          version=$(python .github/scripts/update_formula.py)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
       - if: steps.render.outputs.version != ''
         uses: actions/upload-artifact@v4
         with:
