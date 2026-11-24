@@ -4,8 +4,8 @@ class Continuum < Formula
 
   desc "Static change impact of a checkout: dependents, reach and tests to run"
   homepage "https://pypi.org/project/party-continuum/"
-  url "https://files.pythonhosted.org/packages/e6/c9/0151fc6770505529a942c49fe68431f9bd66a9855b22942515f77d37c6c3/party_continuum-0.10.8.tar.gz"
-  sha256 "e993159e63fbd2afa9dd15787fc5cde56e62bac96731d86cbfa1c50d2383da56"
+  url "https://files.pythonhosted.org/packages/8b/f0/e543fa0d01cbff5a573a421c2ad87adc52e734b2b7308014f59d3b48df5d/party_continuum-0.10.18.tar.gz"
+  sha256 "1b914fb455500f785dc0cba7cbd35d2a3cf5b8d5c50db64ead8b1fae7bb2bfb3"
 
   depends_on "python@3.13"
 
@@ -15,8 +15,8 @@ class Continuum < Formula
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/fd/11/b524cbd9bbdaca58608e4cf4053fd463417549e1959fa8d3aa18319f9555/certifi-2026.10.23.tar.gz"
-    sha256 "a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd"
+    url "https://files.pythonhosted.org/packages/51/33/4cd27639502f010084bcef7a2036391dd637439901341ce1a530f36f6e51/certifi-2026.11.20.tar.gz"
+    sha256 "af1cb240a8133f105aa52684a3a3258339d7f2fd0bd4e2812698ff5cf5588c4e"
   end
 
   resource "h11" do
